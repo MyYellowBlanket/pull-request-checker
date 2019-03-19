@@ -2,6 +2,30 @@
 
 A unified continuous integration tool for coding style check.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Dependencies
 
 * [cpplint](https://github.com/cpplint/cpplint)
