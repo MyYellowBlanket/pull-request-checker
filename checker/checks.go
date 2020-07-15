@@ -93,9 +93,11 @@ func VulnerabilityCheckRun(ctx context.Context, client *github.Client, gpull *gi
 		checkRunID = checkRun.GetID()
 	}
 	conclusion := "success"
+	outputTitle := "No problems found."
 	message := "no vulnerabilities"
 	if len(data) > 0 {
 		conclusion = "failure"
+		outputTitle = fmt.Sprintf("%d problem(s) found.", len(data))
 		message = data[0].MDTitle()
 		for _, v := range data {
 			message += v.MDTableRow()
@@ -103,7 +105,7 @@ func VulnerabilityCheckRun(ctx context.Context, client *github.Client, gpull *gi
 	}
 
 	t := github.Timestamp{Time: time.Now()}
-	err = UpdateCheckRun(ctx, client, gpull, checkRunID, checkName, conclusion, t, conclusion, message, nil)
+	err = UpdateCheckRun(ctx, client, gpull, checkRunID, checkName, conclusion, t, outputTitle, message, nil)
 	if err != nil {
 		msg := fmt.Sprintf("report package vulnerability to github failed: %v", err)
 		_, _ = io.WriteString(log, msg+"\n")
